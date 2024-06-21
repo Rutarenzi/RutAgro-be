@@ -1,0 +1,2869 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "E-commerce application",
+    "description": "E-commerce API documentation"
+  },
+  "schemes": ["http", "https"],
+  "paths": {
+    "/api/v1/users/signin": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login a user",
+        "description": "This is an api that logs in a user with email and password",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "default": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "default": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Login Successful"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/momo": {
+      "post": {
+        "tags": ["Momo Payment"],
+        "summary": "Pay using MTN MoMo",
+        "description": "This is an api that enables the buyer using MTN Momo",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone": {
+                  "type": "string",
+                  "default": "0780000000"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "OK"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/otp/verify/{token}": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Verify OTP code received",
+        "description": "This is an api that completes 2FA",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "description": "token encoded with user id and the otp code"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "otp": {
+                  "type": "string",
+                  "default": ""
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Login Successful"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/password": {
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "description": "The password body to be updated",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "oldPassword": {
+                "type": "string",
+                "description": "User's old password"
+              },
+              "newPassword": {
+                "type": "string",
+                "description": "User's new password"
+              },
+              "confirmPassword": {
+                "type": "string",
+                "description": "User's new password"
+              }
+            }
+          }
+        }
+      ],
+      "patch": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Users"],
+        "summary": "update password",
+        "description": "As a user, I should be able to update my password",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "password updated successfully"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "default": 401
+                  },
+                  "success": {
+                    "default": false
+                  },
+                  "message": {
+                    "default": "Not logged in"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "Incorrect password"
+                  }
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Not accepteble",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "password must differ from old password"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Users"],
+        "summary": "Get all users",
+        "description": "This is an api that gets all users",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Login Successful"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "Invalid password"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/product/recommend": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Products"],
+        "summary": "Get recommended products",
+        "description": "This is an api that gets recommended products",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Login Successful"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "Invalid password"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orderItems": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Orders"],
+        "summary": "Get all seller's order items",
+        "description": "This is an api that gets all seller's order items",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products": {
+      "post": {
+        "tags": ["Products"],
+        "summary": "Add a new product",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "productName",
+            "in": "formData",
+            "description": "The name of the product.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "A description of the product.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "The price of the product.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "description": "The image(s) of the product.",
+            "required": true,
+            "type": "array",
+            "items": {
+              "type": "file"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "description": "The quantity of the product.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "category_id",
+            "in": "formData",
+            "description": "The category of the product.",
+            "required": true
+          },
+          {
+            "name": "expiryDate",
+            "in": "formData",
+            "description": "The expiry date of the product.",
+            "required": true,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Product added successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "integer",
+                  "description": "The ID of the new product."
+                },
+                "productName": {
+                  "type": "string",
+                  "description": "The name of the new product."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the new product."
+                },
+                "price": {
+                  "type": "number",
+                  "description": "The price of the new product."
+                },
+                "images": {
+                  "type": "array",
+                  "description": "The image(s) of the new product.",
+                  "items": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "The quantity of the new product."
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category of the new product."
+                },
+                "expiryDate": {
+                  "type": "string",
+                  "description": "The expiry date of the new product."
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get all products",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Products retrieved successfully.",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}/availability": {
+      "patch": {
+        "tags": ["Products"],
+        "summary": "Update product availability",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The product id",
+            "required": true
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Product availability updated.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "integer",
+                  "description": "The ID of the new product.",
+                  "availability": "newAvailability"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "tags": ["Products"],
+        "summary": "Get product by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The product id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product updated successfully.",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Products"],
+        "summary": "Update a product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The product id",
+            "required": true
+          },
+          {
+            "name": "productName",
+            "in": "formData",
+            "description": "The name of the product.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "formData",
+            "description": "A description of the product.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "description": "The price of the product.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "images",
+            "in": "formData",
+            "description": "The image(s) of the product.",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "file"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "quantity",
+            "in": "formData",
+            "description": "The quantity of the product.",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "availability",
+            "in": "formData",
+            "description": "The availability of the product.",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "category_id",
+            "in": "formData",
+            "description": "The category of the product.",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "expiryDate",
+            "in": "formData",
+            "description": "The expiry date of the product.",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Product updated successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "integer",
+                  "description": "The ID of the new product."
+                },
+                "productName": {
+                  "type": "string",
+                  "description": "The name of the new product."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "The description of the new product."
+                },
+                "price": {
+                  "type": "number",
+                  "description": "The price of the new product."
+                },
+                "images": {
+                  "type": "array",
+                  "description": "The image(s) of the new product.",
+                  "items": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "The quantity of the new product."
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category of the new product."
+                },
+                "expiryDate": {
+                  "type": "string",
+                  "description": "The expiry date of the new product."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{id}/delete": {
+      "delete": {
+        "tags": ["Products"],
+        "summary": "Delete aproduct",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The product id",
+            "required": true
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "integer",
+                  "description": "The ID of the new product."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/productWish": {
+      "post": {
+        "tags": ["Products-Wishes"],
+        "summary": "Add a product to wishlist",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "body",
+            "description": "The id of the product ",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "default": "product_id"
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Product added to wishlist successfully!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "integer",
+                  "description": "The ID of the wished product.",
+                  "user_id": "user_id",
+                  "product_id": "product_id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/productWishes": {
+      "get": {
+        "tags": ["Products-Wishes"],
+        "summary": "Get all products on wishlist",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Product wishes displayed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{product_id}/productWishes": {
+      "get": {
+        "tags": ["Products-Wishes"],
+        "summary": "Get wishes on product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "The id of the product ",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "default": "product_id"
+                }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{email}/roles": {
+      "put": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Users"],
+        "summary": "Changes account role",
+        "description": "This is an api that sets user roles",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "type": "string",
+            "description": "The user email."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "default": "buyer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User role updated",
+            "definitions": {
+              "message": {
+                "type": "object"
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orderItems/{orderItem_id}/status": {
+      "patch": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Orders"],
+        "summary": "Changes order item status",
+        "description": "This is an api that updates order item status",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderItem_id",
+            "required": true,
+            "type": "string",
+            "description": "The order item id."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "default": "status"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order item status updated",
+            "definitions": {
+              "message": {
+                "type": "object"
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "creates a dummy admin",
+        "description": "creates a dummy admin",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "default": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "default": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "registration successful",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "registration Successful"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logout successful",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{email}/status": {
+      "patch": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Users"],
+        "summary": "Toggles account status",
+        "description": "This is an api that enables/disables an account",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "email",
+            "required": true,
+            "type": "string",
+            "description": "The user email."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account disabled",
+            "definitions": {
+              "message": {
+                "type": "object"
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/{token}/password-reset": {
+      "parameters": [
+        {
+          "name": "token",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "required": true,
+          "type": "object",
+          "schema": {
+            "properties": {
+              "password": {
+                "type": "string"
+              },
+              "confirmPassword": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Reset password",
+        "description": "Users should reset their password when they forget their password",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Password reset successfully"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Password reset successfully"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "Token not found"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "default": "Token not found"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "Invalid token"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "default": "Invalid token"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "Password reset failed"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "default": "Password reset failed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/password-reset-request": {
+      "parameters": [
+        {
+          "name": "email",
+          "in": "body",
+          "required": true,
+          "type": "object",
+          "schema": {
+            "properties": {
+              "email": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "post": {
+        "tags": ["Users"],
+        "summary": "Reset password",
+        "description": "Users should make a request  to reset their password",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Email sent to the user"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Email sent to the user"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Registering  a user",
+        "description": "This is an api that register a user with an email, names and password",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "default": "firstname"
+                },
+                "lastname": {
+                  "type": "string",
+                  "default": "lastname"
+                },
+                "email": {
+                  "type": "string",
+                  "default": "email"
+                },
+                "password": {
+                  "type": "string",
+                  "default": "password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Registered",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Register successful"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/verify-account/{token}": {
+      "parameters": [
+        {
+          "name": "token",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Verify account",
+        "description": "Users should verify their account when they are provided with a verification link",
+        "produces": ["application/json"],
+        "responses": {
+          "302": {
+            "description": "redirect",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "description": "Account verified successfully"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Account verified successfully"
+                  }
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "Account verification failed"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "default": "Account verification failed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories": {
+      "post": {
+        "tags": ["Categories"],
+        "summary": "Create a category",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that creates a category",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "categoryName": {
+                  "type": "string",
+                  "default": "Name Of Category"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category created successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Category created successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get all categories",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that retrieves all categories",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved successfully",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories/{categoryId}": {
+      "patch": {
+        "tags": ["Categories"],
+        "summary": "Update a category",
+        "description": "This is an api that updates a category",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the category to update"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The category body to be updated",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "categoryName": {
+                  "type": "string",
+                  "description": "Name of Category to update"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category Updated Successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Category Updated Successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Categories"],
+        "summary": "Get a single category",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that retrieves a category by id",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "description": "UUID of the category to update"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category retrieved successfully",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update user profile",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "firstname",
+            "in": "formData",
+            "description": "user's first name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lastname",
+            "in": "formData",
+            "description": "user's last name",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "formData",
+            "description": "male/female/other",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "description": "user's profile image",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "preferredLanguage",
+            "in": "formData",
+            "description": "user's preferred language",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "preferredCurrency",
+            "in": "formData",
+            "description": "user's preferred currency",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "birthDate",
+            "in": "formData",
+            "description": "user's date of birth",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "billingAddress[province]",
+            "in": "formData",
+            "description": "province",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "billingAddress[district]",
+            "in": "formData",
+            "description": "district",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "billingAddress[sector]",
+            "in": "formData",
+            "description": "sector",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "billingAddress[cell]",
+            "in": "formData",
+            "description": "cell",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "billingAddress[street]",
+            "in": "formData",
+            "description": "street",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Product updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "description": "user's first name"
+                },
+                "lastname": {
+                  "type": "string",
+                  "description": "user's last name"
+                },
+                "gender": {
+                  "type": "string",
+                  "description": "user's gender"
+                },
+                "birthDate": {
+                  "type": "string",
+                  "description": "user's date of birth"
+                },
+                "avatar": {
+                  "type": "string",
+                  "description": "user's profile image"
+                },
+                "preferredLanguage": {
+                  "type": "string",
+                  "description": "user's preferred language"
+                },
+                "preferredCurrency": {
+                  "type": "string",
+                  "description": "user's preferred currency"
+                },
+                "billingAddress": {
+                  "type": "string",
+                  "description": "user's address"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile/single": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Users"],
+        "summary": "Get user profile",
+        "description": "This is an api that gets user profile",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "OK"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not Logged In",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "Not logged in"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cart": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Carts"],
+        "summary": "Get Cart",
+        "description": "This is an api that gets the cart",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Cart Displayed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Carts"],
+        "summary": "Add To Cart",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that adds to cart",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "default": "926ade6c-21f7-4866-ae7f-360d1574839d"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "default": "1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Added to cart successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Added to cart successfully"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Stock is not available",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Stock is not available"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Carts"],
+        "summary": "Update To Cart",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that adds to cart",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "product_id": {
+                  "type": "string",
+                  "default": "926ade6c-21f7-4866-ae7f-360d1574839d"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "default": "1"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Added to cart successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Added to cart successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Carts"],
+        "summary": "Clear The Cart",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that clears the cart",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Cleared the cart successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Cleared the cart successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/cart/{item_id}": {
+      "delete": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Carts"],
+        "summary": "Remove from Cart",
+        "description": "This is an api that removes one item from the cart",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "item_id",
+            "required": true,
+            "type": "string",
+            "description": "The item id."
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Cart Displayed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/checkout": {
+      "post": {
+        "tags": ["Orders"],
+        "summary": "Performs checkout",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api for checkout",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Order created, use the url to complete payment",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  },
+                  "order_id": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Order created, use the url to complete payment"
+                  },
+                  "order_id": { "default": "" },
+                  "url": { "default": "" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/search": {
+      "parameters": [
+        {
+          "name": "name",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "category",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "minPrice",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "maxPrice",
+          "in": "query",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Products"],
+        "summary": "Search product",
+        "description": "Users should be able to search products by name, price range and category or combination of filters.",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {}
+          },
+          "404": {
+            "description": "Not found",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "description": "Product not found"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string",
+                    "default": "Product not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/{order_id}": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Orders"],
+        "summary": "Get Order Status",
+        "description": "This is an api that gets the status of  one order",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "type": "string",
+            "description": "The order id."
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Order Status Displayed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Orders"],
+        "summary": "Get All Orders",
+        "description": "This is an api that gets all orders",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Order Status Displayed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{product_id}/reviews": {
+      "get": {
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Reviews"],
+        "summary": "Get Product Reviews ",
+        "description": "This is an api that gets  Product Reviews ",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "string",
+            "description": "The product id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string",
+                    "default": "Review Displayed"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "BAD REQUEST",
+            "definitions": {
+              "error": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": "error message"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "default": ""
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Add a Review",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that adds a Review",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "string",
+            "description": "The product id."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ratings": {
+                  "type": "integer",
+                  "default": 1
+                },
+                "feedback": {
+                  "type": "string",
+                  "default": "Average Product"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Added to cart successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Added to cart successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/{review_id}/reviews": {
+      "put": {
+        "tags": ["Reviews"],
+        "summary": "Update A review",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This is an api that updates a review",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "review_id",
+            "required": true,
+            "type": "string",
+            "description": "The review id."
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ratings": {
+                  "type": "integer",
+                  "default": 5
+                },
+                "feedback": {
+                  "type": "string",
+                  "default": "Updated Review"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Added the review successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Added the review successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "delete a review",
+        "security": [
+          {
+            "jwt": [],
+            "bearerAuth": []
+          }
+        ],
+        "description": "This removes a review",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "review_id",
+            "required": true,
+            "type": "string",
+            "description": "The review id."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cleared the review successfully",
+            "definitions": {
+              "message": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "schema": {
+              "items": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "default": "Cleared the review successfully"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "bearerFormat": "jwt",
+      "scheme": "bearer"
+    }
+  }
+}
